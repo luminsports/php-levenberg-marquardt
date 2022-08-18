@@ -226,12 +226,14 @@ class LevenbergMarquardtTest extends TestCase
 
         $curve = $model->getCurve();
 
-        $manualCalculatedError = array_sum(array_map(function ($xCoord, $yCoord) use ($curve, $sinFunction) {
-            return pow($yCoord - $sinFunction(...$curve->getParameters())($xCoord), 2);
-        }, $xCoords, $yCoords));
+        $weightSquare = $model->getWeightSquare();
 
-        $this->assertEqualsWithDelta($curve->getError(), $manualCalculatedError, $model->getErrorTolerance());
-        $this->assertEqualsWithDelta($curve->getError(), 15.52, $model->getErrorTolerance());
+        $manualCalculatedError = array_sum(array_map(function ($xCoord, $yCoord, $i) use ($curve, $sinFunction, $weightSquare) {
+            return pow($yCoord - $sinFunction(...$curve->getParameters())($xCoord), 2) / $weightSquare[$i];
+        }, $xCoords, $yCoords, range(0, count($xCoords) - 1)));
+
+        $this->assertEqualsWithDelta($manualCalculatedError, $curve->getError(), $model->getErrorTolerance());
+        $this->assertEqualsWithDelta(15.52, $curve->getError(), $model->getErrorTolerance());
     }
 
     /**
