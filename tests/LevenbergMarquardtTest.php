@@ -230,6 +230,7 @@ class LevenbergMarquardtTest extends TestCase
             return pow($yCoord - $sinFunction(...$curve->getParameters())($xCoord), 2) / $weight;
         }, $xCoords, $yCoords, $model->getWeightSquare()));
 
+        $this->assertEquals(100, $curve->getIterations());
         $this->assertEqualsWithDelta([-0.3239176970432645, -1.795594062006854], $curve->getParameters(), 0.001);
         $this->assertEqualsWithDelta($manualCalculatedError, $curve->getError(), $model->getErrorTolerance());
         $this->assertEqualsWithDelta(15.52, $curve->getError(), $model->getErrorTolerance());
