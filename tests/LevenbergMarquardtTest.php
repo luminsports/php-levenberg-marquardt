@@ -226,12 +226,11 @@ class LevenbergMarquardtTest extends TestCase
 
         $curve = $model->getCurve();
 
-        $weightSquare = $model->getWeightSquare();
+        $manualCalculatedError = array_sum(array_map(function ($xCoord, $yCoord, $weight) use ($curve, $sinFunction) {
+            return pow($yCoord - $sinFunction(...$curve->getParameters())($xCoord), 2) / $weight;
+        }, $xCoords, $yCoords, $model->getWeightSquare()));
 
-        $manualCalculatedError = array_sum(array_map(function ($xCoord, $yCoord, $i) use ($curve, $sinFunction, $weightSquare) {
-            return pow($yCoord - $sinFunction(...$curve->getParameters())($xCoord), 2) / $weightSquare[$i];
-        }, $xCoords, $yCoords, range(0, count($xCoords) - 1)));
-
+        $this->assertEqualsWithDelta([-0.3239176970432645, -1.795594062006854], $curve->getParameters(), 0.001);
         $this->assertEqualsWithDelta($manualCalculatedError, $curve->getError(), $model->getErrorTolerance());
         $this->assertEqualsWithDelta(15.52, $curve->getError(), $model->getErrorTolerance());
     }
@@ -253,19 +252,19 @@ class LevenbergMarquardtTest extends TestCase
             ->setXValues([1, 2])
             ->setYValues([3, 4]);
 
-        $this->assertEquals($model->getDamping(), 1E-2);
-        $this->assertEquals($model->getDampingStepUp(), 11);
-        $this->assertEquals($model->getDampingStepDown(), 9);
-        $this->assertEquals($model->getMaxIterations(), 100);
-        $this->assertEquals($model->getErrorTolerance(), 1E-7);
-        $this->assertEquals($model->getGradientDifference(), 10E-2);
-        $this->assertEquals($model->getImprovementThreshold(), 1E-2);
-        $this->assertEquals($model->getMinValues(), [4, 5, 6]);
-        $this->assertEquals($model->getMaxValues(), [7, 8, 9]);
-        $this->assertEquals($model->getInitialValues(), [5, 6, 7]);
-        $this->assertEquals($model->getWeights(), [1, 2, 3]);
-        $this->assertEquals($model->getXValues(), [1, 2]);
-        $this->assertEquals($model->getYValues(), [3, 4]);
+        $this->assertEquals(1E-2, $model->getDamping());
+        $this->assertEquals(11, $model->getDampingStepUp());
+        $this->assertEquals(9, $model->getDampingStepDown());
+        $this->assertEquals(100, $model->getMaxIterations());
+        $this->assertEquals(1E-7, $model->getErrorTolerance());
+        $this->assertEquals(10E-2, $model->getGradientDifference());
+        $this->assertEquals(1E-2, $model->getImprovementThreshold());
+        $this->assertEquals([4, 5, 6], $model->getMinValues());
+        $this->assertEquals([7, 8, 9], $model->getMaxValues());
+        $this->assertEquals([5, 6, 7], $model->getInitialValues());
+        $this->assertEquals([1, 2, 3], $model->getWeights());
+        $this->assertEquals([1, 2], $model->getXValues());
+        $this->assertEquals([3, 4], $model->getYValues());
     }
 
     /**
@@ -275,7 +274,7 @@ class LevenbergMarquardtTest extends TestCase
     {
         $model = $this->createLinearModel(1, 1, 10);
 
-        $this->assertEquals($model->calculateError([1, 1]), 0, 0.001);
+        $this->assertEquals(0, $model->calculateError([1, 1]), 0.001);
     }
 
     /**
@@ -288,10 +287,10 @@ class LevenbergMarquardtTest extends TestCase
         $curve = $model->getCurve();
         $points = array_map(fn ($p) => $p->toArray(), $model->predict([11, 12]));
 
-        $this->assertEquals($curve->getIterations(), 0);
-        $this->assertEquals($curve->getError(), 0);
-        $this->assertEquals($curve->getParameters(), ['slope' => 1, 'intercept' => 1]);
-        $this->assertEquals($points, [
+        $this->assertEquals(0, $curve->getIterations());
+        $this->assertEquals(0, $curve->getError());
+        $this->assertEquals(['slope' => 1, 'intercept' => 1], $curve->getParameters());
+        $this->assertEquals([
             [
                 'x' => 11,
                 'y' => 12,
@@ -300,7 +299,7 @@ class LevenbergMarquardtTest extends TestCase
                 'x' => 12,
                 'y' => 13,
             ],
-        ]);
+        ], $points);
     }
 
     /**
@@ -310,7 +309,7 @@ class LevenbergMarquardtTest extends TestCase
     {
         $model = $this->createLinearModel(1, 1, 10);
 
-        $this->assertEquals($model->calculateError([1, 1]), 0, 0.001);
+        $this->assertEquals(0, $model->calculateError([1, 1]), 0.001);
     }
 
     /**
@@ -331,12 +330,12 @@ class LevenbergMarquardtTest extends TestCase
         $model = $this->createLinearModel(1, 1, 10);
         $curve = $model->getCurve();
 
-        $this->assertEquals($curve->getParameters(), ['slope' => 1, 'intercept' => 1]);
+        $this->assertEquals(['slope' => 1, 'intercept' => 1], $curve->getParameters());
 
         $model->setYValues(array_map(fn ($x) => 2 * $x + 1, range(0, 9)));
         $curve = $model->getCurve();
 
-        $this->assertEqualsWithDelta($curve->getParameters(), ['slope' => 2, 'intercept' => 1], 0.1);
+        $this->assertEqualsWithDelta(['slope' => 2, 'intercept' => 1], $curve->getParameters(), 0.1);
     }
 
     /**
@@ -419,9 +418,9 @@ class LevenbergMarquardtTest extends TestCase
 
         $curve = $model->getCurve();
 
-        $this->assertEquals($curve->getIterations(), 0);
-        $this->assertEqualsWithDelta($curve->getError(), 19289.706, 0.001);
-        $this->assertEqualsWithDelta(array_values($curve->getParameters()), [0, 100, 1, 0.1], $model->getErrorTolerance());
+        $this->assertEquals(0, $curve->getIterations());
+        $this->assertEqualsWithDelta(19289.706, $curve->getError(), 0.001);
+        $this->assertEqualsWithDelta([0, 100, 1, 0.1], array_values($curve->getParameters()), $model->getErrorTolerance());
     }
 
     protected function createLinearModel(float $slope, float $intercept, int $numberOfPoints): LevenbergMarquardt
