@@ -2,13 +2,13 @@
 
 namespace LuminSports\LevenbergMarquardt\Test;
 
+use InvalidArgumentException;
 use LuminSports\LevenbergMarquardt\LevenbergMarquardt;
 use LuminSports\LevenbergMarquardt\SeriesCountMismatch;
 use PHPUnit\Framework\TestCase;
-use InvalidArgumentException;
 
 /**
- * These tests (and this entire package) are basically a carbon-copy of mljs/levenberd-marquadt
+ * These tests (and this entire package) are basically a carbon-copy of mljs/levenberd-marquadt.
  *
  * https://github.com/mljs/levenberg-marquardt/blob/c8317bc28753976e1182cf9b381080a361d56aaa/src/__tests__/curve.test.js
  */
@@ -304,7 +304,7 @@ class LevenbergMarquardtTest extends TestCase
     /**
      * @group other
      */
-    public function test_error_should_match_The_sum_of_absolute_difference_between_the_model_and_the_data()
+    public function test_error_should_match__the_sum_of_absolute_difference_between_the_model_and_the_data()
     {
         $model = $this->createLinearModel(1, 1, 10);
 

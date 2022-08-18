@@ -14,8 +14,10 @@ use InvalidArgumentException;
 use Matrix\Builder;
 use Matrix\Functions;
 use Matrix\Matrix;
-use ReflectionFunction;
+
 use function Matrix\multiply;
+
+use ReflectionFunction;
 
 /**
  * Adapted from Javascript implementation.
