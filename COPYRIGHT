@@ -1,0 +1,7 @@
+Copyright © 2021 Lumin Sports Technology.
+
+This PHP implementation contains work adapted from mljs/levenberg-marquardt,
+Copyright (c) 2017 ml.js.
+
+This software is distributed under the MIT License. See LICENSE.md for the
+complete license terms and attribution requirements.
