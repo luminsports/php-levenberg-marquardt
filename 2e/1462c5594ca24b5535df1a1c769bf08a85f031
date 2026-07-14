@@ -1,0 +1,57 @@
+phpunit.xml
+  s_b9ec090b6fe381::t_5b824c81300609 2,4,6-13,15-17,19-28
+  s_b9ec090b6fe381::t_6ec994e3c8ebea 3,5,14,18
+composer.json
+  s_b9ec090b6fe381::t_0494cea65cdafa 26
+  s_b9ec090b6fe381::t_5b824c81300609 27,30-35
+  s_b9ec090b6fe381::t_6ec994e3c8ebea 28-29
+phpstan.neon.dist
+  s_b9ec090b6fe381::t_5b824c81300609 1-6
+README.md
+  s_b9ec090b6fe381::t_5b824c81300609 1,4-5,7,9,11-12,16-18,25-27,29-38,40-59,61-68
+  s_b9ec090b6fe381::t_88522149141630 39
+.github/workflows/tests.yml
+  s_044e32a157afd6::t_11cf521f609bc2 36-38
+  s_b9ec090b6fe381::t_5b824c81300609 5-6,8-9,14-16,20,31,33,35,40-41
+  s_044e32a157afd6::t_e73a26dab515ae 11,24-26
+.gitignore
+  s_b9ec090b6fe381::t_5b824c81300609 5-8,12,14-21
+.github/workflows/phpstan.yml
+  s_044e32a157afd6::t_e73a26dab515ae 11-12,20-22,35,46
+  s_b9ec090b6fe381::t_b4da112658b4ff 43
+  s_b9ec090b6fe381::t_5b824c81300609 1-10,13-19,23-34,36-42,44-45,47-50
+.github/workflows/dependabot-auto-merge.yml
+  s_b9ec090b6fe381::t_5b824c81300609 15
+  s_044e32a157afd6::t_4d84c7d06ebac0 2,10
+AGENTS.md
+  s_b9ec090b6fe381::t_5b824c81300609 1-49
+.github/workflows/php-cs-fixer.yml
+  s_b9ec090b6fe381::t_5b824c81300609 20
+  s_044e32a157afd6::t_70c451a493a715 8-12,21-22
+CLAUDE.md
+  s_044e32a157afd6::t_3433d2ff5fe94b 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "2e1462c5594ca24b5535df1a1c769bf08a85f031",
+  "prompts": {},
+  "sessions": {
+    "s_044e32a157afd6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6268-37fe-7fd3-aa4b-87f190dd0adf",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Ryan Brereton <ryan@luminsports.com>"
+    },
+    "s_b9ec090b6fe381": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6039-0515-7971-9beb-1dcff8228fa7",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Ryan Brereton <ryan@luminsports.com>"
+    }
+  }
+}
