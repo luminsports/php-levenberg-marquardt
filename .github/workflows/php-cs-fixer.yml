@@ -5,6 +5,11 @@ on:
     branches: [ 'main', 'develop', 'feature/**', 'release/**' ]
     paths: ['src/**.php']
 
+permissions:
+  checks: write
+  contents: write
+  pull-requests: write
+
 jobs:
   php-cs-fixer:
     name: Run PHP CS Fixer
@@ -12,7 +17,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Run PHP CS Fixer
         uses: luminsports/github-action-php-cs-fixer@main

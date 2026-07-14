@@ -1,0 +1,50 @@
+name: Run PHPStan
+
+on:
+  push:
+    branches: [main, develop, 'feature/**', 'release/**']
+    paths: ['src/**', 'phpstan*.neon*', 'composer.json', 'composer.lock', '.github/workflows/phpstan.yml']
+  pull_request:
+    branches: [main, develop, 'feature/**', 'release/**']
+    paths: ['src/**', 'phpstan*.neon*', 'composer.json', 'composer.lock', '.github/workflows/phpstan.yml']
+
+permissions: {}
+
+jobs:
+  phpstan:
+    name: Run PHPStan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-interaction
+
+      - name: Restore Result Cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .phpstan-cache
+          key: phpstan-result-cache-${{ github.run_id }}
+          restore-keys: |
+            phpstan-result-cache-
+
+      - name: Run PHPStan
+        run: ./vendor/bin/phpstan
+
+      - name: Save Result Cache
+        uses: actions/cache/save@v6
+        if: ${{ !cancelled() }}
+        with:
+          path: .phpstan-cache
+          key: phpstan-result-cache-${{ github.run_id }}

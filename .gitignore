@@ -2,8 +2,20 @@ composer.lock
 vendor
 build
 coverage
-.idea
+.idea/
+.opencode/
+.cass/
+.beads/
 .php_cs
 .php_cs.cache
 .php-cs-fixer.cache
+.php-cs-fixer.dist.php.cache
 .phpunit.result.cache
+.phpstan-cache
+.phpunit.cache/
+.sisyphus/
+.omo/
+.DS_Store
+
+# bv (beads viewer) local config and caches
+.bv/

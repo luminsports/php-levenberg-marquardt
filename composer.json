@@ -23,8 +23,15 @@
     "markbaker/matrix": "^2.1"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.2",
-    "phpunit/php-code-coverage": "^9.2.7",
-    "phpunit/phpunit": "^9.0"
+    "friendsofphp/php-cs-fixer": "^3.94.2",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/php-code-coverage": "^10.1",
+    "phpunit/phpunit": "^10.5"
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit",
+    "phpstan": "phpstan analyse",
+    "check-style": "php-cs-fixer fix --dry-run",
+    "fix-style": "php-cs-fixer fix"
   }
 }
