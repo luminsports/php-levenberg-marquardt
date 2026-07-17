@@ -106,7 +106,7 @@ function contrivedProblems(): array
             ],
             'decimalsForErrorValues'     => 2,
             'decimalsForParameterValues' => 1,
-            ],
+        ],
     ];
 
     return array_map('array_values', $problems);
@@ -144,7 +144,7 @@ it('fits each contrived problem', function ($name, $curveFunction, $n, $xStart, 
 
     $yCoords = array_map($curveFunction(...$problemParameters), $xCoords);
 
-    $curve = (new LevenbergMarquardt())->setParameterizedFunction($curveFunction)
+    $curve = (new LevenbergMarquardt)->setParameterizedFunction($curveFunction)
         ->setDamping($options['damping'] ?? 1E-2)
         ->setDampingStepDown($options['dampingStepDown'] ?? 9)
         ->setDampingStepUp($options['dampingStepUp'] ?? 11)
@@ -164,7 +164,7 @@ it('fits each contrived problem', function ($name, $curveFunction, $n, $xStart, 
 })->with(contrivedProblems())->group('contrived');
 
 it('fits each real world problem', function ($name, $curveFunction, $xCoords, $yCoords, $expected, $options) {
-    $curve = (new LevenbergMarquardt())->setParameterizedFunction($curveFunction)
+    $curve = (new LevenbergMarquardt)->setParameterizedFunction($curveFunction)
         ->setDamping($options['damping'] ?? 1E-2)
         ->setDampingStepDown($options['dampingStepDown'] ?? 9)
         ->setDampingStepUp($options['dampingStepUp'] ?? 11)
@@ -198,7 +198,7 @@ it('returns the solution with the lowest error', function () {
 
     $sinFunction = fn ($a, $b) => fn (float $t) => $a * sin($b * $t);
 
-    $model = (new LevenbergMarquardt())
+    $model = (new LevenbergMarquardt)
         ->setParameterizedFunction($sinFunction)
         ->setDamping(1.5)
         ->setMaxIterations(50)
@@ -221,7 +221,7 @@ it('returns the solution with the lowest error', function () {
 it('gets model settings', function () {
     $nullFunction = fn () => null;
 
-    $model = (new LevenbergMarquardt())
+    $model = (new LevenbergMarquardt)
         ->setParameterizedFunction($nullFunction)
         ->setWeights([1, 2, 3])
         ->setMinValues([4, 5, 6])
@@ -300,13 +300,13 @@ it('recalculates the curve when parameters change', function () {
 it('rejects negative damping', function () {
     $this->expectException(\InvalidArgumentException::class);
 
-    (new LevenbergMarquardt())->setDamping(-1);
+    (new LevenbergMarquardt)->setDamping(-1);
 })->group('exceptions');
 
 it('rejects too few x coordinates', function () {
     $this->expectException(\InvalidArgumentException::class);
 
-    (new LevenbergMarquardt())
+    (new LevenbergMarquardt)
         ->setXValues([1])
         ->getCurve();
 })->group('exceptions');
@@ -314,7 +314,7 @@ it('rejects too few x coordinates', function () {
 it('rejects too few y coordinates', function () {
     $this->expectException(\InvalidArgumentException::class);
 
-    (new LevenbergMarquardt())
+    (new LevenbergMarquardt)
         ->setYValues([1])
         ->getCurve();
 })->group('exceptions');
@@ -322,7 +322,7 @@ it('rejects too few y coordinates', function () {
 it('rejects coordinate series with different lengths', function () {
     $this->expectException(SeriesCountMismatch::class);
 
-    (new LevenbergMarquardt())
+    (new LevenbergMarquardt)
         ->setXValues([1, 2, 3])
         ->setYValues([1, 2, 3, 4])
         ->getCurve();
@@ -331,7 +331,7 @@ it('rejects coordinate series with different lengths', function () {
 it('rejects initial values that do not match the function parameter count', function () {
     $this->expectException(\InvalidArgumentException::class);
 
-    (new LevenbergMarquardt())
+    (new LevenbergMarquardt)
         ->setParameterizedFunction(fn ($a, $b) => fn ($t) => $a * $b * $t)
         ->setInitialValues([1, 2, 3])
         ->setXValues([1, 2, 3])
@@ -343,7 +343,7 @@ it('returns initial values when the function evaluates to NAN after starting', f
     // Note: This test is identical to the other fourParamEq test, except for the
     // damping parameter. The increased damping option leads to a case where
     // c < 0 && d is not an integer so Math.pow(c, d) is NaN
-    $model = (new LevenbergMarquardt())
+    $model = (new LevenbergMarquardt)
         ->setParameterizedFunction(fn ($a, $b, $c, $d) => fn ($t) => $a + ($b - $a) / (1 + pow($c, $d) * pow($t, -$d)))
         ->setDamping(0.01)
         ->setMaxIterations(200)
@@ -365,7 +365,7 @@ function createLinearModel(float $slope, float $intercept, int $numberOfPoints):
     $xCoords = range(0, $numberOfPoints - 1);
     $yCoords = array_map($linearFunction($slope, $intercept), $xCoords);
 
-    return (new LevenbergMarquardt())
+    return (new LevenbergMarquardt)
         ->setParameterizedFunction($linearFunction)
         ->setWeights(1)
         ->setXValues($xCoords)
