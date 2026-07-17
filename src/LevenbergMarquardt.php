@@ -9,15 +9,11 @@
 
 namespace LuminSports\LevenbergMarquardt;
 
-use Closure;
-use InvalidArgumentException;
 use Matrix\Builder;
 use Matrix\Functions;
 use Matrix\Matrix;
 
 use function Matrix\multiply;
-
-use ReflectionFunction;
 
 /**
  * Adapted from Javascript implementation.
@@ -52,7 +48,7 @@ class LevenbergMarquardt
 
     protected array $yValues = [];
 
-    protected Closure $parameterizedFunction;
+    protected \Closure $parameterizedFunction;
 
     protected array $initialValues = [];
 
@@ -84,12 +80,12 @@ class LevenbergMarquardt
             throw new SeriesCountMismatch("Number of elements in arrays do not match {$xCount}:{$yCount}");
         }
 
-        $reflection = new ReflectionFunction($function = $this->getParameterizedFunction());
+        $reflection = new \ReflectionFunction($function = $this->getParameterizedFunction());
 
         $initialValues = $this->getInitialValues();
 
         if (count($initialValues) && count($initialValues) !== $reflection->getNumberOfParameters() && ! $reflection->isVariadic()) {
-            throw new InvalidArgumentException('$initialValues must be an array with a length matching the number of arguments for $parameterizedFunction');
+            throw new \InvalidArgumentException('$initialValues must be an array with a length matching the number of arguments for $parameterizedFunction');
         }
 
         $parameters = count($initialValues) ? $initialValues : array_fill(0, $reflection->getNumberOfParameters(), 1);
@@ -222,7 +218,7 @@ class LevenbergMarquardt
         return $this->yValues;
     }
 
-    public function getParameterizedFunction(): Closure
+    public function getParameterizedFunction(): \Closure
     {
         return $this->parameterizedFunction;
     }
@@ -259,7 +255,7 @@ class LevenbergMarquardt
         $weightSquare = array_fill(0, count($this->getXValues()), 0);
 
         foreach ($this->getYValues() as $i => $yValue) {
-            $weightSquare[$i] = 1 / pow(is_array($weights) ? $weights[$i] : $weights ?? 1, 2);
+            $weightSquare[$i] = 1 / pow(is_array($weights) ? $weights[$i] : $weights, 2);
         }
 
         return $weightSquare;
@@ -268,7 +264,7 @@ class LevenbergMarquardt
     public function setDamping(float $damping): static
     {
         if ($damping <= 0) {
-            throw new InvalidArgumentException('The damping option must be a positive number');
+            throw new \InvalidArgumentException('The damping option must be a positive number');
         }
 
         $this->damping = $damping;
@@ -352,7 +348,7 @@ class LevenbergMarquardt
     public function setXValues(array $xValues): static
     {
         if (count($xValues) < 2) {
-            throw new InvalidArgumentException('$xValues must be an array with more than 2 points');
+            throw new \InvalidArgumentException('$xValues must be an array with more than 2 points');
         }
 
         $this->xValues = $xValues;
@@ -364,7 +360,7 @@ class LevenbergMarquardt
     public function setYValues(array $yValues): static
     {
         if (count($yValues) < 2) {
-            throw new InvalidArgumentException('$yValues must be an array with more than 2 points');
+            throw new \InvalidArgumentException('$yValues must be an array with more than 2 points');
         }
 
         $this->yValues = $yValues;
@@ -373,7 +369,7 @@ class LevenbergMarquardt
         return $this;
     }
 
-    public function setParameterizedFunction(Closure $parameterizedFunction): static
+    public function setParameterizedFunction(\Closure $parameterizedFunction): static
     {
         $this->parameterizedFunction = $parameterizedFunction;
         $this->resetCurve();

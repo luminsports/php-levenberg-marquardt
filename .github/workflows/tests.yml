@@ -1,4 +1,4 @@
-name: Run Tests
+name: Run Pest Tests
 
 on:
   push:
@@ -12,12 +12,8 @@ permissions: {}
 
 jobs:
   tests:
-    name: PHP 8.1 - ${{ matrix.stability }}
+    name: Run Pest Tests
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        stability: [prefer-lowest, prefer-stable]
 
     steps:
       - name: Checkout
@@ -28,14 +24,13 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.5'
+          ini-values: error_reporting=E_ALL
           coverage: xdebug
           tools: composer:v2
 
       - name: Install Dependencies
-        env:
-          STABILITY: ${{ matrix.stability }}
-        run: composer update --"$STABILITY" --prefer-dist --no-interaction
+        run: composer install --prefer-dist --no-interaction
 
-      - name: Run Tests
-        run: composer test -- --coverage-text
+      - name: Run Pest Tests
+        run: composer test:coverage -- --ci --parallel
