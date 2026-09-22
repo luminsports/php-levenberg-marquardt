@@ -13,7 +13,7 @@ permissions:
 jobs:
   php-cs-fixer:
     name: Run PHP CS Fixer
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
 
     steps:
       - name: Checkout
