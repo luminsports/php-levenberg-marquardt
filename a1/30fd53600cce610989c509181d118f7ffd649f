@@ -1,0 +1,19 @@
+tests/LevenbergMarquardtTest.php
+  s_353fd19b5bcefb::t_d550b389b1f513 109
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "a130fd53600cce610989c509181d118f7ffd649f",
+  "prompts": {},
+  "sessions": {
+    "s_353fd19b5bcefb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d778-85fe-7c32-9c5e-fc995f7afd3c",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Ryan Brereton <ryan@luminsports.com>"
+    }
+  }
+}
