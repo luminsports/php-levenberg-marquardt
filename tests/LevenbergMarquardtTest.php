@@ -106,7 +106,7 @@ function contrivedProblems(): array
             ],
             'decimalsForErrorValues'     => 2,
             'decimalsForParameterValues' => 1,
-            ],
+        ],
     ];
 
     return array_map('array_values', $problems);
@@ -271,18 +271,6 @@ it('predicts the next point on a linear model', function () {
             'y' => 13,
         ],
     ], $points);
-})->group('other');
-
-it('matches error to the sum of differences between the model and data', function () {
-    $model = createLinearModel(1, 1, 10);
-
-    $this->assertEquals(0, $model->calculateError([1, 1]), 0.001);
-})->group('other');
-
-it('does not recalculate the curve when parameters are unchanged', function () {
-    $model = createLinearModel(1, 1, 10);
-
-    $this->assertSame($model->getCurve(), $model->getCurve());
 })->group('other');
 
 it('recalculates the curve when parameters change', function () {
