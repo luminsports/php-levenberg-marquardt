@@ -31,6 +31,22 @@ composer test -- --coverage-text
 ./vendor/bin/phpunit --filter test_it_can_guess_the_next_point_on_a_linear_model
 ```
 
+## Fast Test Runs
+
+- Pest 5's test impact analysis runs only the tests your changes affect: `./vendor/bin/pest --parallel --tia`. The
+  first run records a dependency graph from code coverage and takes about as long as a full parallel run. Later runs
+  re-run the affected tests and replay cached results for the rest.
+- TIA needs PCOV or Xdebug, and every test must be a Pest test: one PHPUnit test class stops the run with "Tia mode
+  requires Pest tests". Convert class-based tests first. A `defineEnvironment()` override can move into a trait that
+  the test file applies with `uses()`.
+- The graph lives in `~/.pest/tia/<project-key>/` (`./vendor/bin/pest --baseline` prints the path) and is shared across
+  worktrees. It re-records itself when `composer.lock` or `phpunit.xml` changes; `--tia --fresh` re-records it by hand.
+  Edits to comments, docblocks, or formatting re-run nothing.
+- `--parallel` alone also cuts a full run several-fold.
+- TIA is for local iteration. Do not add `--tia` to CI, and do not count a replayed run as a full-suite run where this
+  file asks for one.
+- This repository is on Pest 4, which has no TIA. Upgrade to Pest 5 before using `--tia`.
+
 ## Package Rules
 
 - Keep the library framework-independent; do not add Laravel-specific runtime behavior.
