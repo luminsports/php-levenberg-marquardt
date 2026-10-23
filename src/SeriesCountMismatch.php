@@ -2,6 +2,4 @@
 
 namespace LuminSports\LevenbergMarquardt;
 
-class SeriesCountMismatch extends \InvalidArgumentException
-{
-}
+class SeriesCountMismatch extends \InvalidArgumentException {}

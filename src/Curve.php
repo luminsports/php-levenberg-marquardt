@@ -11,9 +11,7 @@ namespace LuminSports\LevenbergMarquardt;
 
 class Curve
 {
-    public function __construct(protected array $parameters, protected float $error, protected int $iterations, protected \Closure $curveFunction)
-    {
-    }
+    public function __construct(protected array $parameters, protected float $error, protected int $iterations, protected \Closure $curveFunction) {}
 
     public function getParameters(): array
     {
