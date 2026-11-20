@@ -1,0 +1,27 @@
+.github/workflows/actions.lock
+  s_01e14d15f3b906::t_279c9e35ea9e5c 1-56
+.github/workflows/dependabot-auto-merge.yml
+  s_01e14d15f3b906::t_db93ca8d7be4f8 15
+.github/workflows/php-cs-fixer.yml
+  s_01e14d15f3b906::t_8827d5a0d2932a 23
+.github/workflows/phpstan.yml
+  s_01e14d15f3b906::t_d810e2ae14a8d6 18,23,33,44
+.github/workflows/tests.yml
+  s_01e14d15f3b906::t_5f832d013fb0c4 18,23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fa24a94f25da97801b0d89d26d3a2c5e0638f282",
+  "prompts": {},
+  "sessions": {
+    "s_01e14d15f3b906": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e0b84434-28d0-480b-9d85-870767dce246",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Ryan Brereton <ryan@luminsports.com>"
+    }
+  }
+}
