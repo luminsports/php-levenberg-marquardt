@@ -6,7 +6,6 @@ on:
     paths: ['src/**', 'phpstan*.neon*', 'composer.json', 'composer.lock', '.github/workflows/phpstan.yml']
   pull_request:
     paths: ['src/**', 'phpstan*.neon*', 'composer.json', 'composer.lock', '.github/workflows/phpstan.yml']
-
 permissions: {}
 
 jobs:
@@ -16,12 +15,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@2.40.0
         with:
           php-version: '8.5'
           coverage: none
@@ -31,7 +30,7 @@ jobs:
         run: composer install --prefer-dist --no-interaction
 
       - name: Restore Result Cache
-        uses: actions/cache/restore@v6
+        uses: actions/cache/restore@v6.1.0
         with:
           path: .phpstan-cache
           key: phpstan-result-cache-${{ github.run_id }}
@@ -42,7 +41,7 @@ jobs:
         run: ./vendor/bin/phpstan
 
       - name: Save Result Cache
-        uses: actions/cache/save@v6
+        uses: actions/cache/save@v6.1.0
         if: ${{ !cancelled() }}
         with:
           path: .phpstan-cache
